@@ -43,11 +43,11 @@ struct ListNode {
  
 class Solution {
 public:
-    ListNode* mergeKLists(vector<ListNode*>& lists) {
+    ListNode* mergeKLists(vector<ListNode*> lists) {
         return merge(lists,0,lists.size()-1);
     }
     
-    ListNode* merge(vector<ListNode*> &lists,int l,int r){
+    ListNode* merge(vector<ListNode*> lists,int l,int r){
         if (l==r)return lists[l];
         if (l>r)return nullptr;
         int mid = l + (r-l)/2;
@@ -73,19 +73,18 @@ public:
         tail->next = pa?pa:pb; 
         return head.next;
     }
-    vector<ListNode*> res;
-    vector<ListNode*>& vec2node(const vector<vector<int>> data) {
-        // vector<ListNode*> res;
+    vector<ListNode*> vec2node(vector<vector<int>> data) {
+        vector<ListNode*> *res = new vector<ListNode*>();
         for(auto d:data){
             ListNode* head = new ListNode(),*t = head;
             for(int i:d){
                 ListNode* tmp = new ListNode(i);
-                t = tmp;
+                t->next = tmp;
                 t = t->next;
             }
-            res.push_back(head);
+            res->push_back(head->next);
         }
-        return res;
+        return *res;
     }
     
     void print(ListNode* lists){
@@ -109,6 +108,7 @@ public:
 int main(){
     vector<vector<int>> data = {{1,4,5},{1,3,4},{2,6}};
     Solution s = Solution();
-    // ListNode* res = s.mergeKLists(s.vec2node(data));
-    s.print(s.vec2node(data));
+    ListNode* res = s.mergeKLists(s.vec2node(data));
+    // s.print(s.vec2node(data));
+    s.print(res);
 }
