@@ -106,13 +106,6 @@ public:
     }
 };
 
-SortedStack2::SortedStack2(/* args */)
-{
-}
-
-SortedStack2::~SortedStack2()
-{
-}
 
 
 int main(){
