@@ -38,9 +38,10 @@ public:
         for(int i=0;i<points.size();i++){
             for(int j=i+1;j<points.size();j++){
                 string t = linek(points[i],points[j]);
-                cout<<t<<endl;
+                // cout<<t<<endl;
                 map[t].insert(i);
                 map[t].insert(j);
+                // cout<<"-------------"<<endl;
             }
         }
         int t = 0;
@@ -53,19 +54,21 @@ public:
             if(item.second.size()==t){
                 vector<int> temp(item.second.begin(),item.second.end());
                 if(res[0]>temp[0])res =temp;
+                if(res[0]==temp[0]&&res[1]>temp[1])res =temp;
             }
         }
-        return res; 
+        return {res[0],res[1]}; 
     }
     string linek(vector<int>&x,vector<int>&y){
         int A = y[1]-x[1];
         int B = x[0]-y[0];
         int C = (long)y[0]*x[1]-(long)x[0]*y[1];
+        // cout<<A<<","<<B<<","<<C<<endl;
         int yue = divisor(divisor(abs(A),abs(B)),abs(C));
         A = A/yue;
         B = B/yue;
         C = C/yue;
-        string res = to_string(A) +to_string(B)+ to_string(C);
+        string res = to_string(A)+"," +to_string(B)+","+ to_string(C);
         return res;
     }
     //辗转相除法求最大公约数函数
