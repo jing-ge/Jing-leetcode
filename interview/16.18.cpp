@@ -62,9 +62,9 @@ public:
                             }
                             index+=i;
                         }else{
-                            if(sb=="#")sb = value.substr(index,i);
+                            if(sb=="#")sb = value.substr(index,j);
                             else {
-                                if(sb!=value.substr(index,i))break;
+                                if(sb!=value.substr(index,j))break;
                             }
                             index+=j;
                         }

@@ -34,8 +34,6 @@ public:
             if(s.count(i+dif))return {i+dif,i};
         }
         return {};
-
-        
     }
 };
 
