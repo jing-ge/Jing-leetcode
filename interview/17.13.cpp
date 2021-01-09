@@ -26,6 +26,76 @@
 
 using namespace std;
 
+
+class TrieNode{
+public:
+    vector<TrieNode*> childs;
+    bool isWord;
+    TrieNode(){
+        isWord = false;
+        childs = vector<TrieNode*>(26,nullptr);
+    }
+};
+
+class Solution {
+public:
+    int respace(vector<string>& dictionary, string sentence) {
+        unordered_set<string> dic(dictionary.begin(),dictionary.end());
+        int n = sentence.size();
+        vector<int>dp(n+1,0);
+        for(int i=1;i<=n;i++){
+            dp[i] = dp[i-1]+1;
+            for(int idx = 0;idx<i;idx++){
+                if(dic.count(sentence.substr(idx,i-idx))){
+                    dp[i] = min(dp[i],dp[idx]);
+                }
+            }
+        }
+        return dp[n];
+    }
+    //////////////////////////////////////////////////////////////////////////////////
+    TrieNode* root;
+    int respace2(vector<string>& dictionary, string sentence) {
+        root = new TrieNode();
+        makeTrie(dictionary);
+        int n = sentence.size();
+        vector<int>dp(n+1,0);
+        for(int i = n-1;i>=0;i--){
+            dp[i] = n-i;
+            TrieNode* node = root;
+            for(int j=i;j<n;j++){
+                int c = sentence[j]-'a';
+                if(node->childs[c]==nullptr){
+                    dp[i] = min(dp[i],j-i+1+dp[j+1]);
+                    break;
+                }
+                if(node->childs[c]->isWord){
+                    dp[i] = min(dp[i],dp[j+1]);
+                }else{
+                    dp[i] = min(dp[i],j-i+1+dp[j+1]);
+                }
+                node = node->childs[c];
+            }
+        }
+        return dp[0];
+    }
+
+    void makeTrie(vector<string>& dictionary){
+        for(string s:dictionary){
+            TrieNode* node = root;
+            for(int k=0;k<s.size();k++){
+                int i = s[k]-'a';
+                if(node->childs[i]==nullptr){
+                    node->childs[i] = new TrieNode();
+                }
+                node = node->childs[i];
+            }
+            node->isWord = true;
+        }
+    }
+};
+
+
 int main(){
     vector<string> dictionary = {"looked","just","like","her","brother"};
     string sentence = "jesslookedjustliketimherbrother";
