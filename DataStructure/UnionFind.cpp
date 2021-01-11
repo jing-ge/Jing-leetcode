@@ -34,7 +34,13 @@ bool connected(int p, int q){
 void quickunion(int p, int q){
     int i = root(p);
     int j = root(q);
-    id[i] = j;
+    if(size[i]>sizs[j]){
+        id[j] = i;
+        size[i] += size[j];
+    }else{
+        id[i] = j;
+        size[j]+=size[i];
+    }
 }
 
 
