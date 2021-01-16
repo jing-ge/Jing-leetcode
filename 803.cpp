@@ -67,6 +67,7 @@ void print(vector<int>& res){
     cout<<endl;
 }
 
+
 class UnionFind{
 public:
     vector<int> ids;
@@ -74,17 +75,17 @@ public:
     UnionFind(int n){
         for(int i=0;i<n;i++){
             ids.push_back(i);
-            sizes.push_back(1);
         }
+        sizes = vector<int>(n,1);
     }
     int root(int i){
         while(i!=ids[i])i = ids[i];
         return i;
     }
     void unions(int i,int j){
-        // cout<<"union:"<<i<<","<<j<<endl;
         int p = root(i);
         int q = root(j);
+        // cout<<"union:"<<i<<","<<j<<",root:"<<p<<","<<q<<endl;
         if(p!=q){
             if(sizes[p]<sizes[q]){
                 ids[p] = q;
@@ -101,12 +102,13 @@ class Solution {
 public:
     int m=0,n=0;
     vector<int> hitBricks(vector<vector<int>>& grid, vector<vector<int>>& hits) {
-        vector<vector<int>> copy = grid;
+        vector<bool> copy(hits.size(),0);
         m = grid.size();n = grid[0].size();
         UnionFind uf = UnionFind(m*n+1);
         //碎砖
-        for(auto t:hits){
-            grid[t[0]][t[1]] = 0;
+        for(int i=0;i<hits.size();i++){
+            if(grid[hits[i][0]][hits[i][1]])copy[i]=1;
+            grid[hits[i][0]][hits[i][1]] = 0;
         }
         //建图
         for(int j=0;j<n;j++){
@@ -122,10 +124,11 @@ public:
         // cout<<uf.sizes[0]<<endl;
         vector<int>res(hits.size(),0);
         //补回
+        int x = 0,y=0,tmp = 0;
         for(int i=hits.size()-1;i>=0;i--){
-            int x = hits[i][0],y = hits[i][1];
-            if(copy[x][y]){
-                int tmp = uf.sizes[uf.root(0)];
+            if(copy[i]){
+                x = hits[i][0];y = hits[i][1];
+                tmp = uf.sizes[uf.root(0)];
                 grid[x][y] = 1;
                 if(x+1<m&&grid[x+1][y])uf.unions(getidx(x+1,y),getidx(x,y));
                 if(x-1>=0&&grid[x-1][y])uf.unions(getidx(x-1,y),getidx(x,y));
@@ -139,7 +142,7 @@ public:
         }
         return res;
     }
-    int getidx(int i,int j){
+    constexpr int getidx(int i,int j){
         return i*n+j+1;
     }
 };
