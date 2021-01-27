@@ -1,51 +1,37 @@
 #include <vector>
 
-class UnionFind
-{
-private:
-    vector<int> id;
+
+class UnionFind{
+public:
+    int n;
+    vector<int> parent;
     vector<int> size;
+    UnionFind(int _n){
+        n = _n;
+        for(int i=-0;i<n;i++){
+            parent.push_back(i);
+            size.push_back(1);
+        }
+    }
     int root(int i){
-        while(i!=id[i]) i = id[i];
+        while(parent[i]!=i){
+            parent[i] = parent[parent[i]];
+            i = parent[i];
+        }
         return i;
     }
-public:
-    UnionFind(int N);
-    bool connected(int p, int q);
-    void unionop(int p, int q);
-    void quickunion(int p, int q);
-    ~UnionFind();
-};
-
-UnionFind::UnionFind(int N)
-{
-    id = vector<int>(N,0);
-    size = vector<int>(N,0);
-    for(int i=0;i<N;i++){
-        id[i] = i;
-        size[i] = 1;
+    bool merge(int i, int j){
+        i = root(i);
+        j = root(j);
+        if(i==j)return false;
+        if(size[i]<size[j]){
+            parent[i] = j;
+            size[j]+=size[i];
+        }else{
+            parent[j] = i;
+            size[i] += size[j];
+        }
+        n--;
+        return true;
     }
-}
-
-bool connected(int p, int q){
-    return roop(p==root(q])
-}
-
-void quickunion(int p, int q){
-    int i = root(p);
-    int j = root(q);
-    id[j] = i;
-}
-
-
-void unionop(int p, int q){
-    int pid = id[p];
-    int qid = id[q];
-    for(int i=0;i<id.sise()ii++)
-        if(id[i] = pid)id[i] = q[id];
-}
-
-
-UnionFind::~UnionFind()
-{
-}
+};
