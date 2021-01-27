@@ -25,11 +25,45 @@
 
 using namespace std;
 
+class UnionFind{
+public:
+    int n;
+    vector<int> parent;
+    vector<int> size;
+    UnionFind(int _n){
+        n = _n;
+        for(int i=-0;i<n;i++){
+            parent.push_back(i);
+            size.push_back(1);
+        }
+    }
+    int root(int i){
+        while(parent[i]!=i){
+            parent[i] = parent[parent[i]];
+            i = parent[i];
+        }
+        return i;
+    }
+    bool merge(int i, int j){
+        i = root(i);
+        j = root(j);
+        if(i==j)return false;
+        if(size[i]<size[j]){
+            parent[i] = j;
+            size[j]+=size[i];
+        }else{
+            parent[j] = i;
+            size[i] += size[j];
+        }
+        n--;
+        return true;
+    }
+};
 
 class Solution {
 public:
     vector<vector<bool>>visited;
-    void solve(vector<vector<char>>& board) {
+    void solve_dfs(vector<vector<char>>& board) {
         int m = board.size();
         if(m==0)return;
         int n = board[0].size();
@@ -59,12 +93,48 @@ public:
         dfs(i,j+1,board);
         dfs(i,j-1,board);
     }
+    void solve(vector<vector<char>>& board) {
+        int m = board.size();
+        if(m==0)return;
+        int n = board[0].size();
+        int dummy = m*n;
+        UnionFind uf(m*n+1);
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(board[i][j]=='O'){
+                    int idx = i*n+j;
+                    if(i==0||i==m-1||j==0||j==n-1){
+                        uf.merge(idx,dummy);
+                    }
+                    if(i+1<m&&board[i+1][j]=='O')uf.merge((i+1)*n+j,idx);
+                    if(j+1<n&&board[i][j+1]=='O')uf.merge(i*n+j+1,idx);
+                    if(i-1>=0&&board[i-1][j]=='O')uf.merge((i-1)*n+j,idx);
+                    if(j-1>=0&&board[i][j-1]=='O')uf.merge(i*n+j-1,idx);
+                }
+            }
+        }
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(board[i][j]=='O'&&(uf.root(i*n+j)!=uf.root(dummy))){
+                    board[i][j] = 'X';
+                }
+            }
+        }
+    }
 };
 
 int main(){
     Solution s;
     // vector<vector<char>> board = {{'X','X','X','X'},{'X','O','O','X'},{'X','X','O','X'},{'X','O','X','X'}};
-     vector<vector<char>> board = {{'X','O','X'},{'O','X','O'},{'X','O','X'}};
+    //  vector<vector<char>> board = {{'X','O','X'},{'O','X','O'},{'X','O','X'}};
+    vector<vector<char>> board = {{'X','O','X','O','X','O'},{'O','X','O','X','O','X'},{'X','O','X','O','X','O'},{'O','X','O','X','O','X'}};
+    for(auto t:board){
+        for(auto c:t){
+            cout<<c;
+        }
+        cout<<endl;
+    }
+    cout<<"------------------"<<endl;
     s.solve(board);
     for(auto t:board){
         for(auto c:t){
