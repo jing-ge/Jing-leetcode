@@ -322,8 +322,6 @@ public:
         if(k&1){
             return *it;
         }else{
-            cout<<*it<<endl;
-            cout<<*prev(it,1)<<endl;
             return ((double)*it+*prev(it,1))/2;
         }
     }
