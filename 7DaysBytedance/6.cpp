@@ -31,24 +31,57 @@
 
 using namespace std;
 
-class Solution{
+
+class Solution {
 public:
-    string cham(string s){
-        for(int i=0;i<s.size();i++){
-            if(s[i]=='(')s[i]='[';
-            else if(s[i]==')')s[i]=']';
+    int i;
+    string str;
+    string countOfAtoms(string formula) {
+        i = 0;
+        str = formula;
+        map<string,int> mymap = parse();
+        string res;
+        for(auto t:mymap){
+            res+=t.first;
+            // if(t.second>1){
+                res+=to_string(t.second);
+            // }
         }
-        cout<<s<<endl;
-        return "";
+        return res;
     }
-    map<string,int> parse(string s){
-        int i=0,j=0;
-        int m=0,n=0;
-        map<string,int> res;
-        while(j<s.size()&&n<s.size()){
-            
+    map<string,int> parse(){
+        map<string,int> mymap;
+        int N = str.size();
+        while(i<N && str[i]!=')'){
+            if(str[i]=='('){
+                i++;
+                for(auto &t:parse()){
+                    mymap[t.first]+=t.second;
+                }
+            }else{
+                int start = i;
+                i++;
+                while(i<N&&str[i]>='a'&&str[i]<='z')i++;
+                string name = str.substr(start,i-start);
+                start = i;
+                while(i<N&&str[i]>='0'&&str[i]<='9')i++;
+                if(start==i){
+                    mymap[name]++;
+                }else{
+                    mymap[name]+=stoi(str.substr(start,i-start));
+                }
+            }
         }
-        
+        i++;
+        int start = i;
+        while(i<N&&str[i]>='0'&&str[i]<='9')i++;
+        if(start<i){
+            int mulp = stoi(str.substr(start,i-start));
+            for(auto &t:mymap){
+                mymap[t.first]*=mulp;
+            }
+        }
+        return  mymap;
     }
 };
 
@@ -56,7 +89,11 @@ int main(){
     Solution s;
     string str;
     cin>>str;
-    string res =s.cham(str);
+    for(int i=0;i<str.size();i++){
+        if(str[i]=='[')str[i]='(';
+        else if(str[i]==']')str[i]=')';
+    }
+    string res =s.countOfAtoms(str);
     cout<<res<<endl;
     return 0;
 }
