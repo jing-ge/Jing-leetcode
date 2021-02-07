@@ -1,4 +1,4 @@
-// 化学公式解析
+// 化学公式解析//leetcode 726
 // 给定一个用字符串展示的化学公式，计算每种元素的个数。
 // 规则如下：
 
@@ -23,6 +23,8 @@
 // 链接：https://leetcode-cn.com/leetbook/read/bytedance-c01/euzitj/
 // 来源：力扣（LeetCode）
 // 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
 
 #include <iostream>
 #include <vector>
