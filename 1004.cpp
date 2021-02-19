@@ -35,7 +35,7 @@ using namespace std;
 
 class Solution {
 public:
-    int longestOnes(vector<int>& A, int K) {
+    int longestOnes1(vector<int>& A, int K) {
         int res = 0,k = 0,left = 0,right = 0;
         while(right<A.size()){
             while(k<K&&right<A.size()){
@@ -52,6 +52,14 @@ public:
             if(left>right)right = left;
         }
         return res;
+    }
+    int longestOnes(vector<int>& A, int K) {
+        int left = 0, right  = 0;
+        while(right<A.size()){
+            if(A[right++]==0)K--;
+            if(K<0&&A[left++]==0)K++;
+        }
+        return right-left;
     }
 };
 
