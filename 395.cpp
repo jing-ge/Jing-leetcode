@@ -25,12 +25,13 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 using namespace std;
 
 class Solution {
 public:
-     int longestSubstring(string s, int k) {
+     int longestSubstring1(string s, int k) {
         int ret = 0;
         int n = s.length();
         for (int t = 1; t <= 26; t++) {
@@ -67,11 +68,69 @@ public:
         }
         return ret;
     }
-};
+    int longestSubstring2(string s, int k) {
+        unordered_map<char,int> m;
+        for(char &c:s){
+            m[c]++;
+        }
+        vector<int> splits;
+        int n = s.size();
+        for(int i=0;i<n;i++){
+            if(m[s[i]]<k){
+                splits.push_back(i);
+            }
+        }
+        if(splits.size()<=0)return s.size();
+        int res = 0;
+        int left = 0;
+        for(int i=0;i<splits.size();i++){
+            int len = splits[i]-left;
+            if(len>=k&&len>res){
+                res = max(res,longestSubstring(s.substr(left,len),k));
+            }
+            left = splits[i]+1;
+        }
+        if(left<n-1){
+            res = max(res,longestSubstring(s.substr(left,n-left),k));
+        }
+        return res;
+    }
+    //思路错误
+    int longestSubstring(string s, int k) {
+        unordered_map<char,int> map;
+        int l = 0,r = 0;
+        int res = 0;
+        while(r<s.size()){
+            map[s[r]]++;
+            cout<<l<<","<<r<<endl;
 
+            if(isk(map,k)){
+                if(r<s.size()-1&&map[s[r+1]]>=k)r++;
+                else{
+                    res = max(r-l+1,res);
+                    map[s[l]]--;
+                    l++;
+                }
+            }else{
+                r++;
+            }
+        }
+        if(isk(map,k))res = max(r-l+1,res);
+        return res;
+    }
+    bool isk(unordered_map<char,int> &map,int k){
+        for(auto &t:map){
+            cout<<t.first<<":"<<t.second<<endl;
+        }
+        for(auto &t:map){
+            if(t.second<k)return false;
+        }
+        return true;
+    }
+};
 int main(){
     Solution sol;
-    string s = "aaabb";
+    string s = "aaabbb";
     int k = 3;
     int res = sol.longestSubstring(s,k);
     cout<<res<<endl;
