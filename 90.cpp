@@ -33,15 +33,14 @@ public:
     vector<int> tmp;
     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
         sort(nums.begin(),nums.end());
-        res.push_back({});
         backtrace(nums,0);
         return res;
     }
     void backtrace(vector<int> &nums,int idx){
+        res.push_back(tmp);
         for(int i=idx;i<nums.size();i++){
             if(i>idx&&nums[i]==nums[i-1])continue;
             tmp.push_back(nums[i]);
-            res.push_back(tmp);
             backtrace(nums,i+1);
             tmp.pop_back();
         }
