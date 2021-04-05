@@ -60,6 +60,46 @@ public:
             }
         }
     }
+    void print(vector<int> &arr){
+        for(int i:arr){
+            cout<<i<<",";
+        }
+        cout<<endl;
+    }
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        if(m==0){
+            for(int i=0;i<nums2.size();i++){
+                nums1[i] = nums2[i];
+            }
+        }
+        if(n==0)return;
+        for(int i=m-1;i>=0;i--){
+            nums1[n+i] = nums1[i];
+        }
+        int i = n,j = 0;
+        int t = 0;
+        while(i<m+n&&j<n){
+            // cout<<i<<","<<j<<","<<t<<endl;
+            if(nums1[i]<nums2[j]){
+                nums1[t] = nums1[i];
+                i++;
+            }else{
+                nums1[t] = nums2[j];
+                j++;
+            }
+            t++;
+        }
+        while(i<m+n){
+            nums1[t] = nums1[i];
+            i++;
+            t++;
+        }
+        while(j<n){
+            nums1[t] = nums2[j];
+            j++;
+            t++;
+        }
+    }
 };
 
 int main(){
