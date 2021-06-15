@@ -34,7 +34,8 @@ using namespace std;
 class Solution {
 public:
     bool findNumberIn2DArray(vector<vector<int>>& matrix, int target) {
-        int i=0,j=matrix[0].size();
+        if(matrix.size()==0)return false;
+        int i=0,j=matrix[0].size()-1;
         bool res = false;
         while(i<matrix.size()&&j>=0){
             if(matrix[i][j]==target){

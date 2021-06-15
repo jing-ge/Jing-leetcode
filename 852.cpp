@@ -37,12 +37,26 @@ using namespace std;
 
 class Solution {
 public:
-    int peakIndexInMountainArray(vector<int>& arr) {
+    int peakIndexInMountainArray1(vector<int>& arr) {
         if(arr.size()<3) return 0;
         for(int i=1;i<arr.size()-1;i++){
-            if(arr[i]>arr[i-1]&&arr[i]>arr[i+1])return i;
+            if(arr[i]>arr[i+1])return i;
         }
         return 0;
+    }
+    int peakIndexInMountainArray(vector<int>& arr) {
+        int left = 0,right = arr.size()-2,res = 0;
+        while (left<=right)
+        {
+            int mid = (left+right)/2;
+            if(arr[mid]>arr[mid+1]){
+                res = mid;
+                right = mid-1;
+            }else{
+                left = mid+1;
+            }
+        }
+        return res;
     }
 };
 
