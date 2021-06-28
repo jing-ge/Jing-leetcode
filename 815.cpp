@@ -39,6 +39,7 @@ using namespace std;
 class Solution {
 public:
     int numBusesToDestination(vector<vector<int>>& routes, int source, int target) {
+        if(source==target)return 0;
         int n = routes.size();
         vector<vector<int>> edges(n,vector<int>(n));
         unordered_map<int,vector<int>> rec;
