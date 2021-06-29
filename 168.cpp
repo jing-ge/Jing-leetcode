@@ -49,9 +49,9 @@ public:
     string convertToTitle(int columnNumber) {
         string res = "";
         int temp = columnNumber;
-        while(temp--){
-            int yu = temp%26;
-            temp /= 26;
+        while(temp>0){
+            int yu = (temp-1)%26;
+            temp = (temp-1)/26;
             res = (char)(yu+'A')+ res;
         }
         return res;
