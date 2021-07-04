@@ -13,12 +13,14 @@
 
 #include <iostream>
 #include <vector>
+#include <unordered_map>
+#include <algorithm>
 
 using namespace std;
 
 class Solution {
 public:
-    vector<int> findErrorNums(vector<int>& nums) {
+    vector<int> findErrorNums_bit(vector<int>& nums) {
         if(nums.size()<2)return {};
         int res = 0;
         for(int &x:nums)res^=x;
@@ -41,6 +43,41 @@ public:
             if(i==a)return {a,b};
             else if(i==b)return {b,a};
         }
+        return {b,a};
+    }
+    vector<int> findErrorNums_map(vector<int>& nums){
+        unordered_map<int,int> map;
+        for(int i:nums){
+            map[i]++;
+        }
+        for(int i=1;i<=nums.size();i++){
+            map[i]++;
+        }
+        int a,b;
+        for(auto t:map){
+            if(t.second==1){
+                a = t.first;
+            }else if(t.second==3){
+                b = t.first;
+            }
+        }
+        return {b,a};
+    }
+    vector<int> findErrorNums(vector<int>& nums) {
+        int a=0,b=0,n = nums.size();
+        sort(nums.begin(),nums.end());
+        int prev = 0;
+        for(int i=0;i<n;i++){
+            int cur = nums[i];
+            if(cur==prev){
+                a = prev;
+            } else if( cur-prev>1){
+                b = prev+1;
+            }
+            prev = cur;
+        }
+        if(nums[n-1]!=n)b = n;
+        return {a,b};
     }
 };
 
