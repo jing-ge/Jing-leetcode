@@ -94,7 +94,7 @@ public:
         int start = i;
         while(i<N&&str[i]>='0'&&str[i]<='9')i++;
         if(start<i){
-            int mulp = stoi(str.substr(start,i-start));
+            int mulp = stoi(str.substr(start,i-start)); // 这句一定要写在if里面，在外面可能会导致取不到数字
             for(auto &t:mymap){
                 mymap[t.first]*=mulp;
             }
