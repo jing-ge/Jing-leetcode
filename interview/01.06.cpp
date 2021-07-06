@@ -41,7 +41,6 @@ public:
             cnt++;
         }
         ss<<tmp;
-        if(cnt>1)
         ss<<cnt;
         return ss.str().size()<S.size()?ss.str():S;
     }
