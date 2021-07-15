@@ -36,6 +36,17 @@ public:
         reverse(res.begin(),res.end());
         return res;
     }
+        vector<int> res;
+    vector<int> reversePrint2(ListNode* head) {
+       print(head);
+       return res; 
+    }
+    void print(ListNode* head){
+        if(head!=nullptr){
+            print(head->next);
+            res.push_back(head->val);
+        }
+    }
 };
 
 int main(){
