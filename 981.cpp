@@ -59,7 +59,7 @@ public:
         auto &t = data[key];
         pair<int,string> p = {timestamp,string({127})};
         auto i = upper_bound(t.begin(),t.end(),p);
-        if(i!=data.begin()){
+        if(i!=t.begin()){
             return (i-1)->second;
         }
         return "";
