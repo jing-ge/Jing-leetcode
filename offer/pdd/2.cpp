@@ -21,12 +21,26 @@ int main(){
     }
     unordered_map<int,int> map;
     vector<int> table;
-    while (true)
+    int cddj = 0,cddy = 0;
+    while (ddj.size()>0||ddy.size()>0)
     {
-        if(ddj.size()==0&&ddy.size()==0)break;
         if(ddj.size()>0){
-            table.push_back(ddj.back());
+            int t = ddj[ddj.size()-1];
             ddj.pop_back();
+            if(map[t]){
+                while (table.size()>0&&table[table.size()-1]!=t)
+                {
+                    table.pop_back();
+                    cddj++;
+                }
+                cddj+=2;
+                if(ddj.size()>0){
+                    t = ddj[ddj.size()-1];
+                    ddj.pop_back();
+                    tab
+                }
+            }
+
         }
         if(map[table.back()]){
             while (table.back())
