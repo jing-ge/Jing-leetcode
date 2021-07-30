@@ -41,6 +41,7 @@
 
 #include <iostream>
 #include <string>
+#include <algorithm>
 
 using namespace std;
 
@@ -53,12 +54,25 @@ public:
         }
         return res;
     }
+    string numberToTitle(int n){
+        string res;
+        while (n>26)
+        {
+            res.push_back(n%26+'A'-1);
+            n = n/26;
+        }
+        res.push_back(n+'A'-1);
+        reverse(res.begin(),res.end());
+        return res;
+    }
 };
 
 int main(){
-    string columnTitle = "FXSHRXW";
+    string columnTitle = "FFBSS";
     Solution s;
     int res = s.titleToNumber(columnTitle);
     cout<<res<<endl;
+    string t = s.numberToTitle(res);
+    cout<<t<<endl;
     return 0;
 }
