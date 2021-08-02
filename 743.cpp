@@ -42,20 +42,19 @@ public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
         int inf = INT32_MAX/2;
         vector<vector<int>> g(n,vector<int>(n,inf));
-        for(auto&t:times){
+        for(auto &t:times){
             g[t[0]-1][t[1]-1] = t[2];
         }
         vector<int> dist(n,inf);
-        dist[k-1] = 0;
-        vector<int> used(n,0);
+        dist[k-1]=0;
+        vector<int> used(n);
         for(int i=0;i<n;i++){
             int x = -1;
-            for(int y=0;y<n;y++){
+            for(int y = 0;y<n;y++){
                 if(!used[y]&&(x==-1||dist[y]<dist[x])){
                     x = y;
                 }
             }
-            // cout<<x<<endl;
             used[x] = 1;
             for(int y=0;y<n;y++){
                 dist[y] = min(dist[y],dist[x]+g[x][y]);
