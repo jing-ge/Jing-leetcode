@@ -37,11 +37,11 @@ public:
         return res;
     }
     int countDigitOne(int n) {
-        int mul = 1;
+        long long mul = 1;
         int res = 0;
         while (mul<=n)
         {
-            res+= (n/(mul*10))*mul + min(max(n%(mul*10)-mul+1,0),mul);
+            res+= (n/(mul*10))*mul + min(max(n%(mul*10)-mul+1,0LL),mul);
             mul*=10;
         }
         
