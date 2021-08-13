@@ -44,6 +44,18 @@ $$
 ### 1.2 GBDT
 * https://zhuanlan.zhihu.com/p/144855223
 * https://machinelearningmastery.com/gentle-introduction-gradient-boosting-algorithm-machine-learning/
+### 1.3 逻辑回归
+* https://blog.csdn.net/qxqsunshine/article/details/87911443
+* 逻辑回归的似然函数推导
+  整个逻辑回归模型描述为$h_\theta(x;\theta)=\frac{1}{1+e^{-\theta^T x}}$,其中$\theta$包括$w,b$,结果可以视为类1的后验概率
+  联合概率密度函数为$p(y|x:\theta)=h_\theta(x;\theta)^y(1-h_\theta(x;\theta))^{(1-h_\theta(x;\theta))}$.
+  使用极大似然函数来估计$\theta$:
+  $$
+    L(\theta)=ln \prod_i^n {h_\theta(x^i;\theta)^{y^i}(1-h_\theta(x^i;\theta))^{(1-y^i)}}=\sum_i^ny^i ln h_\theta(x^i;\theta)+(1-y^i)ln(1-h_\theta(x^i;\theta))
+  $$
+* 逻辑回归为什么不用mes或者交叉熵损失函数？
+  要根据给定的训练集，将参数w求出来，所以先定义代价函数，使用误差平法和来当作代价函数，会发现这是一个非凸函数，这就意味着代价函数有着许多的局部最小值，不利于求解。而最大似然作为逻辑回归模型的损失函数，很容易得到参数的最优解（凸函数）。这就是说选取的标准更容易测量，能够求得最优解。
+  
 ## 二·深度学习相关
 ### 2.1 深度学习优化器的改进
 * GD与SGD: 这两种优化都是使用梯度下降，不同点在于GD使用全部数据集来进行优化，SGD随机选择一个样本来进行，GD计算量和内存开销非常大，SGD由于每步接受的信息量有限，收敛的很不稳定。共同面临的缺点是山谷和鞍点两类的优化曲面。
@@ -57,6 +69,7 @@ $$
 * node2vec通过调整游走权重的方法使graph embedding结果权衡“同质性”和“结构性”。
 * 进出概率越大，倾向于DFS，距离相近的embedding尽量相似，越注重同质性，注重同品类、同属性或经常被一同购买的商品。
 * 返回概率越大，倾向于BFS，结构上相似的节点embedding尽量相似，越注重结构性，注重各品类爆款、各品类最佳凑单商品等拥有类似趋势或结构性属性的商品。
+
 ## 三·项目实习经历
 ## 四·常见问答
 ### 4.1 LayerNormalization和BatchNNormalization区别？
