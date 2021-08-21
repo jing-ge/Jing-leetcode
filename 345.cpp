@@ -61,7 +61,6 @@ public:
         for(int i=0;i<s.size();i++){
             if(us.count(s[i])>0)idx.push_back(i);
         }
-        print(idx);
         int l = 0,r = idx.size()-1;
         while(l<r){
             swap(s[idx[l]],s[idx[r]]);
