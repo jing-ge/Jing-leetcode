@@ -27,7 +27,7 @@ int main(){
     priority_queue<int,vector<int>,greater<int>> que;
     sort(task,task+n,cmp);
     for(int i=0;i<n;i++){
-        if(task[i].E>que.size()*10){
+        if(task[i].E-que.size()*10>=10){
             que.push(task[i].W);
         }
         else{
